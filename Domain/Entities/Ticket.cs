@@ -1,0 +1,6 @@
+﻿namespace Acceloka.Domain.Entities
+{
+    public class Ticket
+    {
+    }
+}
