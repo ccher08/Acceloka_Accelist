@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <Folder Include="Application\Commands\BookTicket\" />
+    <Folder Include="Infrastructure\Repositories\Interfaces\" />
   </ItemGroup>
 
 </Project>
