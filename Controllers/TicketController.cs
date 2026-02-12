@@ -1,4 +1,5 @@
 ﻿using Acceloka.Application.Commands.BookTicket;
+using Acceloka.Application.Commands.RevokeTicket;
 using Acceloka.Application.Queries.GetAvailableTicket;
 using Acceloka.Application.Queries.GetBookedTicketDetail;
 using MediatR;
@@ -42,5 +43,21 @@ public class TicketController : ControllerBase
 
         return Ok(result);
     }
+
+    [HttpDelete("revoke-ticket/{bookedTicketGroupId}/{ticketCode}/{qty}")]
+    public async Task<IActionResult> RevokeTicket(
+    int bookedTicketGroupId,
+    string ticketCode,
+    int qty)
+    {
+        var result = await mediator.Send(
+            new RevokeTicketCommand(
+                bookedTicketGroupId,
+                ticketCode,
+                qty));
+
+        return Ok(result);
+    }
+
 
 }

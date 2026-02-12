@@ -24,7 +24,7 @@ builder.Host.UseSerilog();
 
 builder.Services.AddScoped<ITicketRepository, TicketRepository>();
 
-// Add services to the container.
+// Add services to the container
 
 builder.Services.AddControllers()
     .ConfigureApiBehaviorOptions(options =>
@@ -79,7 +79,7 @@ var app = builder.Build();
 
 app.UseMiddleware<GlobalExceptionMiddleware>();
 
-// Configure the HTTP request pipeline.
+// Configure the HTTP request pipeline
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
