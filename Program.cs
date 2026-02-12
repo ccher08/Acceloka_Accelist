@@ -92,4 +92,36 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+app.UseExceptionHandler(errorApp =>
+{
+    errorApp.Run(async context =>
+    {
+        context.Response.ContentType = "application/problem+json";
+
+        var exceptionHandlerPathFeature =
+            context.Features.Get<Microsoft.AspNetCore.Diagnostics.IExceptionHandlerFeature>();
+
+        var exception = exceptionHandlerPathFeature?.Error;
+
+        var problemDetails = new Microsoft.AspNetCore.Mvc.ProblemDetails
+        {
+            Title = "An error occurred",
+            Status = StatusCodes.Status500InternalServerError,
+            Detail = exception?.Message,
+            Instance = context.Request.Path
+        };
+
+        if (exception is KeyNotFoundException)
+        {
+            problemDetails.Title = "Not Found";
+            problemDetails.Status = StatusCodes.Status404NotFound;
+        }
+
+        context.Response.StatusCode = problemDetails.Status.Value;
+
+        await context.Response.WriteAsJsonAsync(problemDetails);
+    });
+});
+
+
 app.Run();

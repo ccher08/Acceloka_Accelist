@@ -54,6 +54,12 @@ namespace Acceloka.Application.Commands.BookTicket
                         $"Ticket {ticket.TicketCode} event date has passed.");
             }
 
+            var maxGroupId = await _context.BookedTickets
+                .MaxAsync(x => (int?)x.BookedTicketGroupId, cancellationToken);
+
+            var newGroupId = (maxGroupId ?? 0) + 1;
+
+
             // SAVE TO BookedTicket TABLE
 
             foreach (var item in request.Items)
@@ -66,6 +72,7 @@ namespace Acceloka.Application.Commands.BookTicket
                 // Insert ke BookedTicket
                 var bookedTicket = new BookedTicket
                 {
+                    BookedTicketGroupId = newGroupId,
                     TicketCode = ticket.TicketCode,
                     Quantity = item.Quantity,
                     BookingDate = DateTime.UtcNow

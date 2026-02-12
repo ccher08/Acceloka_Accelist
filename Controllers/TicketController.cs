@@ -1,5 +1,6 @@
-﻿using Acceloka.Application.Queries.GetAvailableTicket;
-using Acceloka.Application.Commands.BookTicket;
+﻿using Acceloka.Application.Commands.BookTicket;
+using Acceloka.Application.Queries.GetAvailableTicket;
+using Acceloka.Application.Queries.GetBookedTicketDetail;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -28,6 +29,16 @@ public class TicketController : ControllerBase
     [FromBody] BookTicketCommand command)
     {
         var result = await mediator.Send(command);
+
+        return Ok(result);
+    }
+
+    [HttpGet("get-booked-ticket/{bookedTicketGroupId}")]
+    public async Task<IActionResult> GetBookedTicketDetail(
+    int bookedTicketGroupId)
+    {
+        var result = await mediator.Send(
+            new GetBookedTicketDetailQuery(bookedTicketGroupId));
 
         return Ok(result);
     }
