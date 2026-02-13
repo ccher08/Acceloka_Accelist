@@ -1,9 +1,11 @@
 ﻿using Acceloka.Application.Commands.BookTicket;
+using Acceloka.Application.Commands.EditBookedTicket;
 using Acceloka.Application.Commands.RevokeTicket;
 using Acceloka.Application.Queries.GetAvailableTicket;
 using Acceloka.Application.Queries.GetBookedTicketDetail;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+
 
 [ApiController]
 [Route("api/v1")]
@@ -25,6 +27,9 @@ public class TicketController : ControllerBase
         return Ok(result);
     }
 
+
+
+
     [HttpPost("book-ticket")]
     public async Task<IActionResult> BookTicket(
     [FromBody] BookTicketCommand command)
@@ -44,6 +49,9 @@ public class TicketController : ControllerBase
         return Ok(result);
     }
 
+
+
+
     [HttpDelete("revoke-ticket/{bookedTicketGroupId}/{ticketCode}/{qty}")]
     public async Task<IActionResult> RevokeTicket(
     int bookedTicketGroupId,
@@ -55,6 +63,21 @@ public class TicketController : ControllerBase
                 bookedTicketGroupId,
                 ticketCode,
                 qty));
+
+        return Ok(result);
+    }
+
+
+
+
+    [HttpPut("edit-booked-ticket/{bookedTicketGroupId}")]
+    public async Task<IActionResult> EditBookedTicket(
+    int bookedTicketGroupId,
+    [FromBody] EditBookedTicketCommand command)
+    {
+        command.BookedTicketGroupId = bookedTicketGroupId;
+
+        var result = await mediator.Send(command);
 
         return Ok(result);
     }
