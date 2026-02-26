@@ -73,9 +73,21 @@ builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
 builder.Services.AddValidatorsFromAssemblyContaining<GetAvailableTicketValidator>();
 builder.Services.AddFluentValidationAutoValidation();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend",
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:3000")
+                  .AllowAnyHeader()
+                  .AllowAnyMethod();
+        });
+});
 
 
 var app = builder.Build();
+
+app.UseCors("AllowFrontend");
 
 app.UseMiddleware<GlobalExceptionMiddleware>();
 
