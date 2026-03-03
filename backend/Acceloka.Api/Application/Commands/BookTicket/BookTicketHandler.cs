@@ -128,6 +128,8 @@ namespace Acceloka.Application.Commands.BookTicket
                 result.TicketsPerCategories.Add(categoryDto);
             }
 
+            result.BookedTicketGroupId = newGroupId;
+
             result.PriceSummary = result.TicketsPerCategories
                 .Sum(x => x.SummaryPrice);
 

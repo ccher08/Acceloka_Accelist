@@ -2,6 +2,8 @@
 {
     public class BookTicketResultDto
     {
+        public int BookedTicketGroupId { get; set; }
+
         public decimal PriceSummary { get; set; }
 
         public List<TicketsPerCategoryDto> TicketsPerCategories { get; set; }
